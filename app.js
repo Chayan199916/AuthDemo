@@ -78,22 +78,29 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
     if (!emailValidator.validate(req.sanitize(req.body.email)))
         return res.status(400).json({ success: false, message: `invalid email format` });
-    user.register(new user({
-        username: req.sanitize(req.body.username),
-        name: req.sanitize(req.body.name),
-        address: req.sanitize(req.body.address),
-        mobile: req.sanitize(req.body.mobile),
-        email: req.sanitize(req.body.email)
-    }), req.body.password, (err, user) => {
+    user.findOne({ username: req.body.username }, (err, foundUser) => {
         if (err) {
-            console.log(err);
-            return res.render("register");
+            return res.status(400).send({ message: err.message });
         }
-        passport.authenticate("local")(req, res, () => {
-            res.redirect("/secret");
+        if (foundUser) {
+            return res.status(400).json({ success: false, message: `user already registered` });
+        }
+        user.register(new user({
+            username: req.sanitize(req.body.username),
+            name: req.sanitize(req.body.name),
+            address: req.sanitize(req.body.address),
+            mobile: req.sanitize(req.body.mobile),
+            email: req.sanitize(req.body.email)
+        }), req.body.password, (err, user) => {
+            if (err) {
+                console.log(err);
+                return res.render("register");
+            }
+            passport.authenticate("local")(req, res, () => {
+                res.redirect("/secret");
+            });
         });
-    });
-
+    })
 });
 
 app.get('/login', (req, res) => {
