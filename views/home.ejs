@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <style>
+      li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+        outline-style: none;
+      }
+      button {
+        background-color: rgb(201, 220, 236);
+        color: rgb(56, 13, 13);
+        border-radius: 8px;
+        padding: 10px 24px;
+        font-size: 16px;
+        margin: 0 auto;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        display: block;
+        width: 15%;
+      }
+      h1 {
+        text-align: center;
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>This is home page!</h1>
+      <% if(!currentUser){ %>
+      <li>
+        <button><a href="/register">Sign Up!</a></button>
+      </li>
+      <li>
+        <button><a href="/login">Login!</a></button>
+      </li>
+      <% } else{ %>
+      <li>
+        <button><a href="/logout">Logout!</a></button>
+      </li>
+      <% } %>
+    </div>
+  </body>
+</html>
